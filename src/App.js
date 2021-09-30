@@ -13,6 +13,7 @@ class App extends Component {
   };
 
   formSubmit = data => {
+    //  console.log(data);
     const contact = { id: shortid.generate(data.name), name: data.name, number: data.number };
 
     if (this.state.contacts.find(el => el.name.toLowerCase() === contact.name.toLowerCase())) {

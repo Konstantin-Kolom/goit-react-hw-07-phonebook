@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+// import { connect } from 'react-redux';
+// import phoneBookAticons from '../../redux/phonebook/phonebook-actions';
 
 import s from './DataRecordForm.module.css';
 import { FaPhoneSquareAlt } from '../../../node_modules/react-icons/fa';
@@ -73,5 +75,7 @@ function DataRecordForm({ onFormSubmit }) {
     </form>
   );
 }
+// const mapDispatchToProps = dispatch => ({ onSubmit: data => phoneBookAticons.addContact(data) });
 
+// export default connect(null, mapDispatchToProps)(DataRecordForm);
 export default DataRecordForm;

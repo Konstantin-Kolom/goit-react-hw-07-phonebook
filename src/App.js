@@ -50,6 +50,7 @@ function App() {
     <>
       <Section title="Phonebook">
         <DataRecordForm onFormSubmit={addContact} />
+        {/* <DataRecordForm /> */}
         <h2>Contacts</h2>
         <FilterContact value={filter} onchangeFilter={changeFilter} />
         <Contacts stateApp={visibleContact} onDeleteContact={deleteContact} />

@@ -6,4 +6,5 @@ const addContact = data => ({
   paylode: { id: shortid.generate(data.name), name: data.name, number: data.number },
 });
 
-export default addContact;
+// eslint-disable-next-line import/no-anonymous-default-export
+export default { addContact };

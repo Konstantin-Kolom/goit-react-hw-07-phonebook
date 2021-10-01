@@ -10,7 +10,7 @@ function App() {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
-  const formSubmit = data => {
+  const addContact = data => {
     const contact = { id: shortid.generate(data.name), name: data.name, number: data.number };
 
     if (contacts.find(el => el.name.toLowerCase() === contact.name.toLowerCase())) {
@@ -49,7 +49,7 @@ function App() {
   return (
     <>
       <Section title="Phonebook">
-        <DataRecordForm onFormSubmit={formSubmit} />
+        <DataRecordForm onFormSubmit={addContact} />
         <h2>Contacts</h2>
         <FilterContact value={filter} onchangeFilter={changeFilter} />
         <Contacts stateApp={visibleContact} onDeleteContact={deleteContact} />

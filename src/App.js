@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 
 import Section from './components/Section/Section';
@@ -6,67 +6,56 @@ import DataRecordForm from './components/DataRecordForm/DataRecordForm';
 import Contacts from './components/Contacts/Contacts';
 import FilterContact from './components/FilterContact/FilterContact';
 
-class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+function App() {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
 
-  formSubmit = data => {
-    //  console.log(data);
+  const formSubmit = data => {
     const contact = { id: shortid.generate(data.name), name: data.name, number: data.number };
 
-    if (this.state.contacts.find(el => el.name.toLowerCase() === contact.name.toLowerCase())) {
+    if (contacts.find(el => el.name.toLowerCase() === contact.name.toLowerCase())) {
       return alert(`${contact.name} is alresdy in contacts`);
-    } else
-      this.setState(prevState => ({
-        contacts: [contact, ...prevState.contacts],
-      }));
+    } else setContacts([contact, ...contacts]);
   };
 
-  changeFilter = e => {
-    this.setState({ filter: e.currentTarget.value });
+  const changeFilter = e => {
+    setFilter(e.currentTarget.value);
   };
 
-  deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
+  const deleteContact = contactId => {
+    setContacts(contacts.filter(contact => contact.id !== contactId));
   };
 
-  componentDidMount() {
+  const normalizeFilter = filter.toLowerCase();
+
+  const visibleContact = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(normalizeFilter),
+  );
+
+  useEffect(() => {
     const contacts = localStorage.getItem('contacts');
     const parselContacts = JSON.parse(contacts);
     if (parselContacts) {
-      this.setState({ contacts: parselContacts });
+      setContacts(parselContacts);
     }
-  }
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  useEffect(() => {
+    if (contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
     }
-  }
+  }, [contacts]);
 
-  render() {
-    const { filter } = this.state;
-    const normalizeFilter = this.state.filter.toLowerCase();
-
-    const visibleContact = this.state.contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizeFilter),
-    );
-
-    return (
-      <>
-        <Section title="Phonebook">
-          <DataRecordForm onFormSubmit={this.formSubmit} />
-          <h2>Contacts</h2>
-          <FilterContact value={filter} onchangeFilter={this.changeFilter} />
-          <Contacts stateApp={visibleContact} onDeleteContact={this.deleteContact} />
-        </Section>
-      </>
-    );
-  }
+  return (
+    <>
+      <Section title="Phonebook">
+        <DataRecordForm onFormSubmit={formSubmit} />
+        <h2>Contacts</h2>
+        <FilterContact value={filter} onchangeFilter={changeFilter} />
+        <Contacts stateApp={visibleContact} onDeleteContact={deleteContact} />
+      </Section>
+    </>
+  );
 }
 
 export default App;

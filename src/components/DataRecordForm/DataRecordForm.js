@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-// import { connect } from 'react-redux';
-// import phoneBookAticons from '../../redux/phonebook/phonebook-actions';
+import { connect } from 'react-redux';
+import phoneAticons from '../../redux/phonebook/phonebook-actions';
 
 import s from './DataRecordForm.module.css';
 import { FaPhoneSquareAlt } from '../../../node_modules/react-icons/fa';
 import { BsFillPersonPlusFill } from '../../../node_modules/react-icons/bs';
 
-function DataRecordForm({ onFormSubmit }) {
+function DataRecordForm({ addContact }) {
   const [name, SetName] = useState('');
   const [number, SetNumber] = useState('');
 
@@ -23,7 +23,7 @@ function DataRecordForm({ onFormSubmit }) {
 
   const hendleSubmit = e => {
     e.preventDefault();
-    onFormSubmit({ name, number });
+    addContact({ name, number });
     reset();
   };
 
@@ -69,13 +69,17 @@ function DataRecordForm({ onFormSubmit }) {
           onChange={hendleChangeNumber}
         />
       </label>
+
       <button className={s.btnFormContact} type="submit">
         Add contact
       </button>
     </form>
   );
 }
-// const mapDispatchToProps = dispatch => ({ onSubmit: data => phoneBookAticons.addContact(data) });
 
-// export default connect(null, mapDispatchToProps)(DataRecordForm);
-export default DataRecordForm;
+const mapDispatchToProps = dispatch => ({
+  addContact: data => dispatch(phoneAticons.addContact(data)),
+});
+
+export default connect(null, mapDispatchToProps)(DataRecordForm);
+// export default DataRecordForm;

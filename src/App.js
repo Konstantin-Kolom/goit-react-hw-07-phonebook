@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-// import shortid from 'shortid';
+// import React, { useEffect, useState } from 'react';
 
 import Section from './components/Section/Section';
 import DataRecordForm from './components/DataRecordForm/DataRecordForm';
@@ -7,53 +6,29 @@ import Contacts from './components/Contacts/Contacts';
 import FilterContact from './components/FilterContact/FilterContact';
 
 function App() {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
+  //   const [contacts, setContacts] = useState([]);
 
-  //   const addContact = data => {
-  //     const contact = { id: shortid.generate(data.name), name: data.name, number: data.number };
+  //   useEffect(() => {
+  //     const contacts = localStorage.getItem('contacts');
+  //     const parselContacts = JSON.parse(contacts);
+  //     if (parselContacts) {
+  //       setContacts(parselContacts);
+  //     }
+  //   }, []);
 
-  //     if (contacts.find(el => el.name.toLowerCase() === contact.name.toLowerCase())) {
-  //       return alert(`${contact.name} is alresdy in contacts`);
-  //     } else setContacts([contact, ...contacts]);
-  //   };
-
-  const changeFilter = e => {
-    setFilter(e.currentTarget.value);
-  };
-
-  const deleteContact = contactId => {
-    setContacts(contacts.filter(contact => contact.id !== contactId));
-  };
-
-  const normalizeFilter = filter.toLowerCase();
-
-  const visibleContact = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizeFilter),
-  );
-
-  useEffect(() => {
-    const contacts = localStorage.getItem('contacts');
-    const parselContacts = JSON.parse(contacts);
-    if (parselContacts) {
-      setContacts(parselContacts);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (contacts) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    }
-  }, [contacts]);
+  //   useEffect(() => {
+  //     if (contacts) {
+  //       localStorage.setItem('contacts', JSON.stringify(contacts));
+  //     }
+  //   }, [contacts]);
 
   return (
     <>
       <Section title="Phonebook">
-        {/* <DataRecordForm onFormSubmit={addContact} /> */}
         <DataRecordForm />
         <h2>Contacts</h2>
-        {/* <FilterContact value={filter} onchangeFilter={changeFilter} /> */}
-        <Contacts stateApp={visibleContact} onDeleteContact={deleteContact} />
+        <FilterContact />
+        <Contacts />
       </Section>
     </>
   );

@@ -1,3 +1,6 @@
+import { connect } from 'react-redux';
+import phoneAticons from '../../redux/phonebook/phonebook-actions';
+
 import s from './Contacts.module.css';
 import { MdDeleteForever } from '../../../node_modules/react-icons/md';
 
@@ -20,4 +23,22 @@ function Contacts({ stateApp, onDeleteContact }) {
   );
 }
 
-export default Contacts;
+const getVisibleContact = (allContacts, filter) => {
+  const normalizeFilter = filter.toLowerCase();
+  return allContacts.filter(contact => contact.name.toLowerCase().includes(normalizeFilter));
+};
+
+const mapStateToProps = state => {
+  const { items, filter } = state.contacts;
+  const visibleContact = getVisibleContact(items, filter);
+
+  return {
+    stateApp: visibleContact,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  onDeleteContact: id => dispatch(phoneAticons.deleteContact(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

@@ -1,20 +1,23 @@
-import types from './phonebook-types';
+import { createAction } from '@reduxjs/toolkit';
 import shortid from 'shortid';
 
-const addContact = data => ({
-  type: types.ADD,
-  paylode: { id: shortid.generate(data.name), name: data.name, number: data.number },
+// import types from './phonebook-types';
+
+const openBook = createAction('phonebook/open');
+
+const addContact = createAction('phonebook/add', ({ name, number }) => {
+  return {
+    payload: {
+      id: shortid.generate(name),
+      name: name,
+      number: number,
+    },
+  };
 });
 
-const deleteContact = contactId => ({
-  type: types.DELETE,
-  paylode: contactId,
-});
+const deleteContact = createAction('phonebook/delete');
 
-const changeFilter = value => ({
-  type: types.CHANGE_FILTER,
-  paylode: value,
-});
+const changeFilter = createAction('phonebook/changeFilter');
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { addContact, deleteContact, changeFilter };
+export default { addContact, deleteContact, changeFilter, openBook };

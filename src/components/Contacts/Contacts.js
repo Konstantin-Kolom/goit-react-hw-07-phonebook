@@ -1,10 +1,22 @@
+import React, { useEffect } from 'react';
+
 import { connect } from 'react-redux';
 import phoneAticons from '../../redux/phonebook/phonebook-actions';
 
 import s from './Contacts.module.css';
 import { MdDeleteForever } from '../../../node_modules/react-icons/md';
 
-function Contacts({ stateApp, onDeleteContact }) {
+function Contacts({ open, stateApp, onDeleteContact }) {
+  useEffect(() => {
+    open();
+  }, [open]);
+
+  useEffect(() => {
+    if (stateApp) {
+      localStorage.setItem('contacts', JSON.stringify(stateApp));
+    }
+  }, [stateApp]);
+
   return (
     <ul className={s.ContactsList}>
       {stateApp.map(({ id, name, number }) => (
@@ -39,6 +51,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onDeleteContact: id => dispatch(phoneAticons.deleteContact(id)),
+  open: () => dispatch(phoneAticons.openBook()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

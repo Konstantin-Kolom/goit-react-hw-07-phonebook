@@ -3,7 +3,6 @@ import phoneAticons from '../../redux/phonebook/phonebook-actions';
 
 import s from './FilterContact.module.css';
 import { AiOutlineSearch } from '../../../node_modules/react-icons/ai';
-// import { FaRegMap } from 'react-icons/fa';
 
 function FilterContact({ value, onchangeFilter }) {
   return (
@@ -26,9 +25,10 @@ function FilterContact({ value, onchangeFilter }) {
   );
 }
 
-const mapStateToProps = state => ({
-  value: state.contacts.filter,
-});
+const mapStateToProps = state => {
+  const { contacts } = state;
+  return { value: contacts.filter };
+};
 
 const mapDispatchToProps = dispatch => ({
   onchangeFilter: e => dispatch(phoneAticons.changeFilter(e.currentTarget.value)),

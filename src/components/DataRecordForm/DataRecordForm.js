@@ -12,7 +12,6 @@ function DataRecordForm({ addContact }) {
 
   const hendleChangeName = e => {
     const value = e.currentTarget.value;
-
     SetName(value);
   };
 

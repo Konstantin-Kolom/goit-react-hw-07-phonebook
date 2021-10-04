@@ -1,8 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import shortid from 'shortid';
 
-// import types from './phonebook-types';
-
 const openBook = createAction('phonebook/open');
 
 const addContact = createAction('phonebook/add', ({ name, number }) => {

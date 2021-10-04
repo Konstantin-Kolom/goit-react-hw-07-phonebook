@@ -7,9 +7,6 @@ import actions from './phonebook-actions';
 const contacts = localStorage.getItem('contacts');
 const parselContacts = JSON.parse(contacts);
 
-// const parselLocalStorage = localStorage.setItem('contacts', JSON.stringify());
-// console.log(parselLocalStorage);
-
 const items = createReducer([], {
   [actions.openBook]: () => [...parselContacts],
   [actions.addContact]: (state, { payload }) => [...state, payload],

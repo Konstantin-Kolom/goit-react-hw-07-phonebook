@@ -8,8 +8,6 @@ import './index.css';
 
 import App from './App';
 
-// console.log(store);
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

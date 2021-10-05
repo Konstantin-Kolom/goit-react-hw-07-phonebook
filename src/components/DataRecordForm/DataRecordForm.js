@@ -6,7 +6,7 @@ import s from './DataRecordForm.module.css';
 import { FaPhoneSquareAlt } from '../../../node_modules/react-icons/fa';
 import { BsFillPersonPlusFill } from '../../../node_modules/react-icons/bs';
 
-function DataRecordForm({ addContact }) {
+function DataRecordForm({ items, addContact }) {
   const [name, SetName] = useState('');
   const [number, SetNumber] = useState('');
 
@@ -22,7 +22,10 @@ function DataRecordForm({ addContact }) {
 
   const hendleSubmit = e => {
     e.preventDefault();
-    addContact({ name, number });
+
+    if (items.find(el => el.name.toLowerCase() === name.toLowerCase())) {
+      return alert(`${name} is alresdy in contacts`);
+    } else addContact({ name, number });
     reset();
   };
 
@@ -76,8 +79,12 @@ function DataRecordForm({ addContact }) {
   );
 }
 
+const mapStateToProps = state => {
+  return state.contacts;
+};
+
 const mapDispatchToProps = dispatch => ({
   addContact: data => dispatch(phoneAticons.addContact(data)),
 });
 
-export default connect(null, mapDispatchToProps)(DataRecordForm);
+export default connect(mapStateToProps, mapDispatchToProps)(DataRecordForm);

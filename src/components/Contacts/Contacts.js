@@ -1,16 +1,20 @@
 // import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-
-import phoneAticons from '../../redux/phonebook/phonebookActions';
-import { MdDeleteForever } from '../../../node_modules/react-icons/md';
-import { useGetContactsQuery } from '../../redux/phonebook/phonebookSlice';
-
 import { SpinnerLoader } from '../Loader/Loader';
+
+// import phoneAticons from '../../redux/phonebook/phonebookActions';
+import { MdDeleteForever } from '../../../node_modules/react-icons/md';
+import {
+  useGetContactsQuery,
+  useDeleteContactMutation,
+} from '../../redux/phonebook/phonebookSlice';
 
 import s from './Contacts.module.css';
 
 function Contacts({ open, stateApp, onDeleteContact }) {
-  const { data, isFetching, isError } = useGetContactsQuery('');
+  const { data, isFetching, isError } = useGetContactsQuery();
+  const [delContact, { isLoading: isDeleting }] = useDeleteContactMutation();
+
   return (
     <>
       {isFetching && <SpinnerLoader />}
@@ -24,12 +28,13 @@ function Contacts({ open, stateApp, onDeleteContact }) {
               <button
                 className={s.BtnDeletContact}
                 type="button"
-                onClick={() => onDeleteContact(id)}
+                //  onClick={() => onDeleteContact(id)}
+                onClick={() => delContact(id)}
               >
                 <span>
                   <MdDeleteForever />
                 </span>
-                <span>Delete</span>
+                <span>{isDeleting ? 'Delete...' : 'Delete'}</span>
               </button>
             </li>
           ))}
@@ -55,8 +60,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onDeleteContact: id => dispatch(phoneAticons.deleteContact(id)),
-  open: () => dispatch(phoneAticons.openBook()),
+  //   onDeleteContact: id => dispatch(phoneAticons.deleteContact(id)),
+  //   open: () => dispatch(phoneAticons.openBook()),
   //   open: () => dispatch(bookOperation.fetchPhoneBook()),
   //   addServer: () => dispatch(bookOperation.fetchAddNamber()),
 });

@@ -1,31 +1,20 @@
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import phoneAticons from '../../redux/phonebook/phonebookActions';
 import { MdDeleteForever } from '../../../node_modules/react-icons/md';
-// import * as bookOperation from '../../redux/phonebook/phonebookOperation';
 import { useGetContactsQuery } from '../../redux/phonebook/phonebookSlice';
-// import { }
+
+import { SpinnerLoader } from '../Loader/Loader';
 
 import s from './Contacts.module.css';
 
 function Contacts({ open, stateApp, onDeleteContact }) {
-  const { data, error, isFetching, isError } = useGetContactsQuery('');
-  //   console.log(data);
-  //   console.log(error);
-  //   console.log(isLoading);
-
-  useEffect(() => {
-    if (stateApp) {
-      // dispatch(bookOperation.fetchAddNamber(stateApp));
-      // localStorage.setItem('contacts', JSON.stringify(stateApp));
-      //  addServer();
-      // console.log(stateApp);
-    }
-  }, [stateApp]);
-
+  const { data, isFetching, isError } = useGetContactsQuery('');
   return (
     <>
+      {isFetching && <SpinnerLoader />}
+      {isError && <h2>You phonebook no found!</h2>}
       {data && (
         <ul className={s.ContactsList}>
           {data.map(({ id, name, number }) => (
@@ -46,7 +35,7 @@ function Contacts({ open, stateApp, onDeleteContact }) {
           ))}
         </ul>
       )}
-      {/* {data === [] && <h2>You phonebook empty</h2>} */}
+      {data && data.length === 0 && <h2>You phonebook empty !</h2>}
     </>
   );
 }

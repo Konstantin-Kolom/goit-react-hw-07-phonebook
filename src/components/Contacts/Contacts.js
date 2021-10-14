@@ -13,7 +13,7 @@ import s from './Contacts.module.css';
 
 function Contacts({ open, stateApp }) {
   const { data = [], isFetching, isError } = useGetContactsQuery();
-  const [delContact, { isLoading: isDeleting }] = useDeleteContactMutation();
+  const [delContact] = useDeleteContactMutation();
 
   useEffect(() => {
     if (data.length !== 0) {
@@ -35,7 +35,10 @@ function Contacts({ open, stateApp }) {
                 <span>
                   <MdDeleteForever />
                 </span>
-                <span>{isDeleting ? 'Delete...' : 'Delete'}</span>
+                <span>
+                  {/* {isDeleting ? 'Delete...' : 'Delete'} */}
+                  Delete
+                </span>
               </button>
             </li>
           ))}

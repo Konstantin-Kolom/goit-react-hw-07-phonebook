@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-hot-toast';
 
 import phoneAticons from '../../redux/phonebook/phonebookActions';
 import { FaPhoneSquareAlt } from '../../../node_modules/react-icons/fa';
@@ -27,9 +28,10 @@ function DataRecordForm({ items, addContact }) {
     e.preventDefault();
 
     if (items.find(el => el.name.toLowerCase() === name.toLowerCase())) {
-      return alert(`${name} is alresdy in contacts`);
+      return toast.error(`"${name}" is already in contacts!`);
     } else createContact({ name, number });
     addContact({ name, number });
+    toast.success('The contact is added to the phone book!');
     reset();
   };
 

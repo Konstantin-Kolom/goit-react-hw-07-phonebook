@@ -1,37 +1,53 @@
-import React, { useEffect } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import phoneAticons from '../../redux/phonebook/phonebook-actions';
+
+import phoneAticons from '../../redux/phonebook/phonebookActions';
+import { MdDeleteForever } from '../../../node_modules/react-icons/md';
+// import * as bookOperation from '../../redux/phonebook/phonebookOperation';
+import { useGetContactsQuery } from '../../redux/phonebook/phonebookSlice';
+// import { }
 
 import s from './Contacts.module.css';
-import { MdDeleteForever } from '../../../node_modules/react-icons/md';
 
 function Contacts({ open, stateApp, onDeleteContact }) {
-  useEffect(() => {
-    open();
-  }, [open]);
+  const { data, error, isFetching, isError } = useGetContactsQuery('');
+  //   console.log(data);
+  //   console.log(error);
+  //   console.log(isLoading);
 
   useEffect(() => {
     if (stateApp) {
-      localStorage.setItem('contacts', JSON.stringify(stateApp));
+      // dispatch(bookOperation.fetchAddNamber(stateApp));
+      // localStorage.setItem('contacts', JSON.stringify(stateApp));
+      //  addServer();
+      // console.log(stateApp);
     }
   }, [stateApp]);
 
   return (
-    <ul className={s.ContactsList}>
-      {stateApp.map(({ id, name, number }) => (
-        <li className={s.ContactsItem} key={id} id={id}>
-          <p>{name}</p>
-          <p>{number}</p>
-          <button className={s.BtnDeletContact} type="button" onClick={() => onDeleteContact(id)}>
-            <span>
-              <MdDeleteForever />
-            </span>
-            <span>Delete</span>
-          </button>
-        </li>
-      ))}
-    </ul>
+    <>
+      {data && (
+        <ul className={s.ContactsList}>
+          {data.map(({ id, name, number }) => (
+            <li className={s.ContactsItem} key={id} id={id}>
+              <p>{name}</p>
+              <p>{number}</p>
+              <button
+                className={s.BtnDeletContact}
+                type="button"
+                onClick={() => onDeleteContact(id)}
+              >
+                <span>
+                  <MdDeleteForever />
+                </span>
+                <span>Delete</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {/* {data === [] && <h2>You phonebook empty</h2>} */}
+    </>
   );
 }
 
@@ -52,6 +68,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   onDeleteContact: id => dispatch(phoneAticons.deleteContact(id)),
   open: () => dispatch(phoneAticons.openBook()),
+  //   open: () => dispatch(bookOperation.fetchPhoneBook()),
+  //   addServer: () => dispatch(bookOperation.fetchAddNamber()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

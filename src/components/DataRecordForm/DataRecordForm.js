@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import phoneAticons from '../../redux/phonebook/phonebook-actions';
+import phoneAticons from '../../redux/phonebook/phonebookActions';
 
 import s from './DataRecordForm.module.css';
 import { FaPhoneSquareAlt } from '../../../node_modules/react-icons/fa';
 import { BsFillPersonPlusFill } from '../../../node_modules/react-icons/bs';
 
-function DataRecordForm({ items, addContact }) {
+function DataRecordForm({ entities, addContact }) {
   const [name, SetName] = useState('');
   const [number, SetNumber] = useState('');
 
@@ -23,7 +23,7 @@ function DataRecordForm({ items, addContact }) {
   const hendleSubmit = e => {
     e.preventDefault();
 
-    if (items.find(el => el.name.toLowerCase() === name.toLowerCase())) {
+    if (entities.find(el => el.name.toLowerCase() === name.toLowerCase())) {
       return alert(`${name} is alresdy in contacts`);
     } else addContact({ name, number });
     reset();

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import phoneAticons from '../../redux/phonebook/phonebook-actions';
+import phoneAticons from '../../redux/phonebook/phonebookActions';
 
 import s from './FilterContact.module.css';
 import { AiOutlineSearch } from '../../../node_modules/react-icons/ai';

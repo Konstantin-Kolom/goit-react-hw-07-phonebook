@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import phoneAticons from '../../redux/phonebook/phonebookActions';
 
-import s from './DataRecordForm.module.css';
+import phoneAticons from '../../redux/phonebook/phonebookActions';
 import { FaPhoneSquareAlt } from '../../../node_modules/react-icons/fa';
 import { BsFillPersonPlusFill } from '../../../node_modules/react-icons/bs';
+import { useCreateContactMutation } from '../../redux/phonebook/phonebookSlice';
+import s from './DataRecordForm.module.css';
 
-function DataRecordForm({ entities, addContact }) {
+function DataRecordForm({ items, addContact }) {
   const [name, SetName] = useState('');
   const [number, SetNumber] = useState('');
+
+  const [createContact, { isLoading }] = useCreateContactMutation();
 
   const hendleChangeName = e => {
     const value = e.currentTarget.value;
@@ -23,9 +26,10 @@ function DataRecordForm({ entities, addContact }) {
   const hendleSubmit = e => {
     e.preventDefault();
 
-    if (entities.find(el => el.name.toLowerCase() === name.toLowerCase())) {
+    if (items.find(el => el.name.toLowerCase() === name.toLowerCase())) {
       return alert(`${name} is alresdy in contacts`);
-    } else addContact({ name, number });
+    } else createContact({ name, number });
+    addContact({ name, number });
     reset();
   };
 
@@ -73,7 +77,7 @@ function DataRecordForm({ entities, addContact }) {
       </label>
 
       <button className={s.btnFormContact} type="submit">
-        Add contact
+        {isLoading ? 'Adding...' : ' Add contact'}
       </button>
     </form>
   );

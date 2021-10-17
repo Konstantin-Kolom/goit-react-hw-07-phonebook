@@ -54,7 +54,7 @@ function Contacts({ open, stateApp }) {
           ))}
         </ul>
       )}
-      {data && data.length === 0 && <h2>You phonebook empty !</h2>}
+      {data && data.length === 0 && <h2>Youre phonebook is empty !</h2>}
     </>
   );
 }

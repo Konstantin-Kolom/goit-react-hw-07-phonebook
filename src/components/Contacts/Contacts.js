@@ -30,7 +30,7 @@ function Contacts({ open, stateApp }) {
   return (
     <>
       {isFetching && <SpinnerLoader />}
-      {isError && <h2>You phonebook no found!</h2>}
+      {isError && <h2>Youre phonebook not found!</h2>}
       {data && (
         <ul className={s.ContactsList}>
           {data.map(({ id, name, number }) => (
